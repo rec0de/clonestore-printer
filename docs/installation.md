@@ -63,7 +63,8 @@ To configure the server manually, just create a `config.json` file in the clones
 	"model": "QL-700",
 	"tapeWidth": "62",
 	"authKey": "[128bit base64 encoded random data]"
-}```
+}
+```
 
 Here, `uri`, `model` and `tapeWidth` correspond to the arguments `brother_ql` needs to print. For a list of possible values and how to find them, please refer to the [brother_ql documentation](https://github.com/pklaus/brother_ql/blob/master/README.md).  
 Please note that as of now, only 'endless' formats are supported, dice-cut labels won't be accepted.  
