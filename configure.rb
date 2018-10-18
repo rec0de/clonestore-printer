@@ -55,7 +55,7 @@ while !modelfound do
 	end
 end
 
-widths = ['12', '29', '38', '50', '54', '62', '102']
+widths = ['12', '29', '29x90', '62']
 widthfound = false
 
 while !widthfound do
