@@ -3,24 +3,29 @@ require 'shellwords'
 
 class Label
 
-	@width = 306
-	@height = 991
-	@padd = 20
-	@tmppath = '/tmp/clonestore-qr.png'
-
 	def initialize(w, h, padding)
 		@width = w
 		@height = h
 		@padd = padding
+		@tmppath = '/tmp/clonestore-qr.png'
 	end
 
 	def generate(qr, text, path)
 		escaped = Shellwords.escape(text)
 		outfile = Shellwords.escape(path)
-		qr = RQRCode::QRCode.new(qr).as_png(size: @width, border_modules: 1)
-		IO.write("/tmp/clonestore-qr.png", qrPNG.to_s)
-		magickSuccess = system("convert #{@tmppath} \\( -size #{(@height - @width).to_s}x#{(@width - 2*@padd).to_s} -border 0x#{@padd.to_s} -bordercolor white -background white -fill black -pointsize 40 -font DejaVu-Sans-Book caption:#{escaped} \\) +append #{outfile}")
-		if !magickSuccess then
-			raise RuntimeException, 'ImageMagick label creation failed'
+		qrcode = RQRCode::QRCode.new(qr)
+		qrcode.as_png(size: @width, border_modules: 1, file: @tmppath)
+
+		if !File.exists?(@tmppath)
+			raise ImageProcessingError, 'QR generation failed'
+		end
+
+		magickSuccess = system("convert #{@tmppath} \\( -size #{(@height - @width).to_s}x#{(@width - 2*@padd).to_s} -border 0x#{@padd.to_s} -bordercolor white -background white -fill black -pointsize 40 -font DejaVu-Sans-Book caption:#{escaped} \\) +append -rotate \"90\" #{outfile}")
+		if !magickSuccess
+			raise ImageProcessingError, 'ImageMagick label creation failed'
+		end
 	end
+end
+
+class ImageProcessingError < RuntimeError
 end

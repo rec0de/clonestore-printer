@@ -4,9 +4,9 @@ This guide assumes you are trying to install the CloneStore print server on a Ra
 
 ## Prerequisites
 
-Once your system is up and running, install `git`, `gcc`, `libjpeg`, `python`, `pip`, `ruby` and `rubygems`.
+Once your system is up and running, install `git`, `gcc`, `libjpeg`, `imagemagick`, `python`, `pip`, `ruby` and `rubygems`.
 
-```sudo pacman -S git gcc libjpeg python python-pip ruby rubygems```
+```sudo pacman -S git gcc libjpeg imagemagick python python-pip ruby rubygems```
 
 ## Get the code
 
@@ -58,14 +58,17 @@ To be granted access to the printer, a user usually has to be in the `lp` group.
 For a somewhat guided configuration, run `ruby configure.rb`.  
 To configure the server manually, just create a `config.json` file in the clonestore-printer directory with the following structure:
 
-```{
+```
+{
 	"uri": "file:///dev/usb/lp0",
 	"model": "QL-700",
-	"tapeWidth": "62",
-	"authKey": "[128bit base64 encoded random data]"
+	"dimensions": "29x90",
+	"authKey": "[128bit base64 encoded random data]",
+	"name": "Human readable printer name",
+	"location": "Human readable printer location"
 }
 ```
 
-Here, `uri`, `model` and `tapeWidth` correspond to the arguments `brother_ql` needs to print. For a list of possible values and how to find them, please refer to the [brother_ql documentation](https://github.com/pklaus/brother_ql/blob/master/README.md).  
-Please note that as of now, only 'endless' formats are supported, dice-cut labels won't be accepted.  
+Here, `uri`, `model` and `dimensions` correspond to the arguments `brother_ql` needs to print. For a list of possible values and how to find them, please refer to the [brother_ql documentation](https://github.com/pklaus/brother_ql/blob/master/README.md).
+  
 The `authKey` value is used as a shared secret between the print server and the client used to authenticate incoming print requests. It should be set to a sufficiently long (128bit recommended) random string in base64 format. You will need this string on any client that should connect to the print server.

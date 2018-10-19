@@ -82,8 +82,15 @@ end
 puts "Generating authentication key..."
 authKey = SecureRandom.base64
 
+config = { "uri" => uri, "model" => model, "dimensions" => tapeWidth, "authKey" => authKey }
+
+puts "How would you like to name this printer?"
+config['name'] = gets.chomp
+puts "Where is this printer located?"
+config['location'] = gets.chomp
+
 puts "Saving configuration file..."
-config = { "uri" => uri, "model" => model, "tapeWidth" => tapeWidth, "authKey" => authKey }
+
 cfg = File.open('config.json', File::CREAT|File::TRUNC|File::RDWR, 0644)
 cfg.write(JSON.dump(config))
 
