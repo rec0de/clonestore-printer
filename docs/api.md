@@ -16,11 +16,11 @@ The API consists of only a single endpoint, in this example `http://printer.exam
 
 Returns a JSON Object including name and location of the printer.
 
-| Property   | Format | Description                                ||
-| ---------- | ------ | ------------------------------------------ ||
-| type       | text   | Constant string `clonestore-printer`, may be used to discover printers ||
-| name       | text   | Human-readable name of the printer         ||
-| location   | text   | Human-readable location of the printer     ||
+| Property   | Format | Description                                |
+| ---------- | ------ | ------------------------------------------ |
+| type       | text   | Constant string `clonestore-printer`, may be used to discover printers |
+| name       | text   | Human-readable name of the printer         |
+| location   | text   | Human-readable location of the printer     |
 
 ### Printing
 
@@ -28,13 +28,13 @@ Returns a JSON Object including name and location of the printer.
 
 Prints some data on a label. Returns a JSON Object indicating success.
 
-| Parameter  | Format | Description                             ||
-| ---------- | ------ | --------------------------------------- ||
-| qrdata     | text   | Data to be encoded in the label QR-Code ||
-| text       | text   | Additional data to print as plaintext next to the QR-Code; May contain newlines ||
-| mac        | hex    | HMAC token of `qrdata|text`, see authentication ||
+| Parameter  | Format | Description                             |
+| ---------- | ------ | --------------------------------------- |
+| qrdata     | text   | Data to be encoded in the label QR-Code |
+| text       | text   | Additional data to print as plaintext next to the QR-Code; May contain newlines |
+| mac        | hex    | HMAC token of `qrdata|text`, see authentication |
 
-| Property   | Format | Description                                ||
-| ---------- | ------ | ------------------------------------------ ||
-| success    | bool   | True if printig succeeded, false otherwise ||
-| statustext | text   | Human-readable status of the request       ||
+| Property   | Format | Description                                |
+| ---------- | ------ | ------------------------------------------ |
+| success    | bool   | True if printig succeeded, false otherwise |
+| statustext | text   | Human-readable status of the request       |
