@@ -53,9 +53,9 @@ post '/' do
 			return 	"{\"success\":true,\"statustext\":\"Printing completed\"}"
 
 		rescue PrinterError => e
-			return errorJSON("Printer Error: #{e.msg}")
+			return errorJSON("Printer Error: #{e.to_s}")
 		rescue ImageProcessingError => e
-			return errorJSON("Image Processing Error: #{e.msg}")
+			return errorJSON("Image Processing Error: #{e.to_s}")
 		end
 	end
 end
