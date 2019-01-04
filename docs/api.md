@@ -6,6 +6,8 @@ On installation, the print server will generate an authentication token. This (s
 
 For example, to authenticate a request to print a label with a QR Code reading `example.com` and the text `Testlabel` at timestamp 1234567, you would calculate `HMAC-SHA256('example.com|Testlabel41152', key)`, where `1234567 / 30 = 41152` (integer division). 
 
+When verifying a request at server time `t`, the print server should accept MACs calculated using `t / 30`, `(t / 30) + 1` and `(t / 30) - 1` to allow for some clock skew between client and server. 
+
 ## Methods
 
 The API consists of only a single endpoint, in this example `http://printer.example.com`.
@@ -14,13 +16,14 @@ The API consists of only a single endpoint, in this example `http://printer.exam
 
 `GET http://printer.example.com`
 
-Returns a JSON Object including name and location of the printer.
+Returns a JSON Object including name, location, and status of the printer.
 
 | Property   | Format | Description                                |
 | ---------- | ------ | ------------------------------------------ |
 | type       | text   | Constant string `clonestore-printer`, may be used to discover printers |
 | name       | text   | Human-readable name of the printer         |
 | location   | text   | Human-readable location of the printer     |
+| online     | bool   | Indicates connection status of the printer |
 
 ### Printing
 

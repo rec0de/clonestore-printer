@@ -35,6 +35,11 @@ class Printer
 			raise PrinterError, 'Invalid label file dimensions'
 		end
 	end
+
+	def status
+		plainURI = @uri.gsub('file://', '')
+		File.exists?(plainURI) && File.readable?(plainURI)
+	end
 end
 
 class PrinterError < RuntimeError

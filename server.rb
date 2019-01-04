@@ -27,8 +27,11 @@ authenticator = Authenticator.new(config['authKey'])
 printer = Printer.new(config['uri'], config['model'], config['dimensions'])
 labelFactory = getLabelFactory(config['dimensions'])
 
+set :environment, :production
+set :port, 4567
+
 get '/' do
-	"{\"type\":\"clonestore-printer\", \"name\":\"#{config['name']}\", \"location\":\"#{config['location']}\"}"
+	"{\"type\":\"clonestore-printer\", \"name\":\"#{config['name']}\", \"location\":\"#{config['location']}\", \"online\":#{printer.status}}"
 end
 
 post '/' do
