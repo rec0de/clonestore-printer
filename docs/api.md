@@ -35,7 +35,7 @@ Prints some data on a label. Returns a JSON Object indicating success.
 | ---------- | ------ | --------------------------------------- |
 | qrdata     | text   | Data to be encoded in the label QR-Code |
 | text       | text   | Additional data to print as plaintext next to the QR-Code; May contain newlines |
-| mac        | hex    | HMAC token of qrdata|text, see authentication |
+| mac        | hex    | HMAC token of `qrdata\|text`, see authentication |
 
 | Property   | Format | Description                                |
 | ---------- | ------ | ------------------------------------------ |
