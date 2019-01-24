@@ -39,11 +39,13 @@ post '/' do
 		return errorJSON('Missing QR data')
 	elsif !params['mac'] || params['mac'] == ''
 		return errorJSON('Missing request MAC')
-	elsif !authenticator.timedAuth(params['qrdata'] + '|' +  params['text'], params['mac'])
+	elsif !authenticator.timedAuth(params['qrdata'] + '|' +  params['text'] + '|' + params['copies'] + '|', params['mac'])
 		return errorJSON('Invalid request MAC')
 	else
 		qr = params['qrdata']
 		text = params['text']
+		copies = params['copies'] ? params['copies'].to_i : 1
+		copies = copies > 10 ? 10 : copies # Limit to 10 labels per print job
 		id = Digest::MD5.hexdigest(qr+text)
 		path = "/tmp/cslbl-#{id}.png"
 
@@ -52,7 +54,7 @@ post '/' do
 			if !File.exists?(path)
 				labelFactory.generate(qr, text, path)
 			end
-			printer.print(path)
+			printer.print(path, copies)
 			return 	"{\"success\":true,\"statustext\":\"Printing completed\"}"
 
 		rescue PrinterError => e

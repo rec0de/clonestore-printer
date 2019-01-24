@@ -22,18 +22,19 @@ class Printer
 		@feedDimensions = Shellwords.escape(dimensions)
 	end
 
-	def print(path)
+	def print(path, copies = 1)
 		plainURI = @uri.gsub('file://', '')
 		if !File.exists?(plainURI) || !File.readable?(plainURI)
 			raise PrinterError, 'Printer is offline'
 		end
 		
 		escapedPath = Shellwords.escape(path)
-		res = `brother_ql -p #{@uri} -m #{@model} print -l #{@feedDimensions} #{escapedPath} 2>&1`
 
-		if res.match('Bad image dimensions')
-			raise PrinterError, 'Invalid label file dimensions'
-		end
+		Thread.new {
+			copies.times do
+				`brother_ql -p #{@uri} -m #{@model} print -l #{@feedDimensions} #{escapedPath} 2>&1`
+			end
+		}
 	end
 
 	def status
